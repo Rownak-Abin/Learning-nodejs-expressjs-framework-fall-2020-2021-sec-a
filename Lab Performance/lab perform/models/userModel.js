@@ -5,7 +5,10 @@ module.exports= {
 		var sql = "select * from user where uname='"+user.uname+"' and password='"+user.password+"'";
 		db.getResults(sql, function(results){
 			if(results.length >0 ){
-				callback(true);
+
+				var i = results[0].type;
+				console.log(i);
+				callback(i);
 			}else{
 				callback(false);
 			}
@@ -65,5 +68,81 @@ module.exports= {
 			}
 		});
 
-	}
+	},
+	insertjob: function(newUser, callback){
+		var sql= "INSERT INTO joblist (cName, title, location, salary) VALUES ( '"+newUser.cName+"','"+newUser.title+"','"+newUser.location+"','"+newUser.salary+"')";
+		db.execute(sql, function(results){
+			if(results.length >0 ){
+				callback(true);
+			}else{
+				callback(false);
+			}
+
+		});
+	},
+
+	getJobById: function(Sid, callback){
+
+		var sql = "select * from joblist where Jid='"+Sid+"'";
+		db.getResults(sql, function(results){
+			console.log(results.cName);
+				callback(results);
+		});
+
+
+
+	},
+
+	getAlljob: function(callback){
+		var sql = "select * from joblist";
+		db.getResults(sql, function(results){
+			callback(results);
+		});	
+
+},
+
+	updateJob:function(Uid, user, callback){
+
+
+		var sql= "UPDATE joblist SET cName='"+user.cName+"', title='"+user.title+"', location='"+user.location+"' , salary='"+user.salary+"' where Jid='"+Uid+"'";
+		db.execute(sql, function(results){
+			if(results.length >0 ){
+				callback(true);
+			}else{
+				callback(false);
+			}
+
+	});
+
+},
+
+	deleteJob:function(Eid, callback){
+
+		var sql = "DELETE FROM joblist WHERE Jid='"+Eid+"'";
+		db.execute(sql, function(results){
+			if(results.length >0 ){
+				callback(true);
+			}else{
+				callback(false);
+			}
+		});
+
+	},
+
+	search: function(key, callback){
+		var sql = "SELECT * FROM user WHERE eName LIKE '"+key+"%' AND type!='admin'";
+		console.log(sql);
+		db.getResults(sql, function(results){
+
+			console.log("dataset length "+results.length);
+			if(results.length > 0){
+				callback(results);
+			}else{
+				callback(false);
+			}
+		});
+	},
+
 }
+
+//LIKE ''"+key+"''%' and type !='admin'
