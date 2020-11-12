@@ -7,25 +7,34 @@ const cookieParser 		= require('cookie-parser');
 const login				= require('./controllers/login');
 const logout			= require('./controllers/logout');
 const home				= require('./controllers/home');
+const employee			= require('./controllers/employee');
+const eusers			= require('./controllers/eusers');
+const path				= require('path');
+
 const user				= require('./controllers/user');
 const app				= express();
 const port				= 3000;
+
 
 //configuration
 app.set('view engine', 'ejs');
 
 
 //middleware
-app.use('/abc', express.static('assets'))
+app.use('/public', express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(exSession({secret: 'secret value', saveUninitialized: true, resave: false}));
+
 
 
 app.use('/login', login);
 app.use('/home', home);
 app.use('/logout', logout);
 app.use('/user', user);
+app.use('/employee', employee);
+app.use('/eusers', eusers);
+
 
 //router
 app.get('/', (req, res)=>{
