@@ -10,11 +10,19 @@ router.get('*',  (req, res, next)=>{
 });
 
 router.get('/create', (req, res)=>{
-	res.render('user/create');
+	if(req.session.uname != ""){
+
+	res.render('user/create');}
+	else{
+		res.redirect('/login');
+	}
 });
 
 
 router.post('/create', (req, res)=>{
+
+	if(req.session.uname != ""){
+
 	var newUser = {
 		eName : req.body.eName,
 		cName : req.body.cName,
@@ -37,9 +45,17 @@ router.post('/create', (req, res)=>{
 
 	})
 
+}
+	else{
+			res.redirect('/login');
+		}
+
+
 });
 
 router.get('/edit/:id', (req, res)=>{
+
+	if(req.session.uname != ""){
 
 		var i = req.params.id;
 		
@@ -49,10 +65,19 @@ router.get('/edit/:id', (req, res)=>{
 			
 		})
 
+	}
+
+	else{
+			res.redirect('/login');
+		}
+
+
 		
 });
 
 router.post('/edit/:id', (req, res)=>{
+
+	if(req.session.uname != ""){
 
 	var i = req.params.id;
 
@@ -77,9 +102,16 @@ router.post('/edit/:id', (req, res)=>{
 		}
 
 	})
-
 	
-});
+}
+	else{
+			res.redirect('/login');
+		}
+
+
+}
+
+);
 
 router.get('/delete/:id', (req, res)=>{
 	
@@ -120,35 +152,3 @@ router.post('/delete/:id', (req, res)=>{
 
 module.exports = router;
 
-/*
-	var f = function () {}
-    var sql= "select * from table";
-	getResult(sql,function(results){
-			
-			console.log(results);
-			
-	});
-	\
-
-
-	void func(int x,int y)
-	{
-	 z=x+y
-	}
-
-	int main()
-	{
-		int x,y;
-		z=x+y;
-		
-	}
-
-	function f1(x,y)
-	{
-	
-	}
-
-	f1(10,20);
-
-
-*/
