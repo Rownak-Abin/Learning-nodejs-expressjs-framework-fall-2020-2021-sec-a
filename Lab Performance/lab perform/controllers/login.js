@@ -7,18 +7,36 @@ router.get('/', (req, res)=>{
 });
 
 router.post('/', (req, res)=>{
+req.session.uname = req.body.username;
+
+console.log(req.body.username);
+
 	var user = {
 		uname: req.body.username,
 		password: req.body.password
 	};
 
 	userModel.validate(user, function(status){
+
+		
 		
 
-		if(status){
-			console.log("ooo");
-			res.redirect('/home');
-		}else{
+		if(status == "admin"){
+			
+			req.session.uname = req.body.username;
+			
+				res.redirect('/home');
+			}
+			else if(status == "user"){
+
+				req.session.uname = req.body.username;
+
+				console.log();
+
+				res.redirect('/employee');
+			}
+			
+			else{
 			res.redirect('/login');
 		}
 	});
